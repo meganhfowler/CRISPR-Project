@@ -6,7 +6,7 @@ echo Done.
 echo
 echo
 echo Predicting...
-./code/predict.py
+#./code/predict.py
 #echo Benchmark:
 #./test/benchmark.py
 

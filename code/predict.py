@@ -8,7 +8,7 @@ import torch
 output_file_path = 'test/predictions.csv'
 
 # Load test.csv
-df_test = pd.read_csv(data/test.csv)
+df_test = pd.read_csv(data/df_test.csv)
 
 def model_predict(model):
     # Run predictions

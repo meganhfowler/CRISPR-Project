@@ -3,4 +3,4 @@ Course project for directed research course
 
 Data:
 Taken from crisprSQL
-Reference: CRISPR-Cas9 off-targeting assessment with nucleic acid duplex energy parameters by Alkan et al.
+Reference: crisprSQL: a novel database platform for CRISPR/Cas off-target cleavage assays by Florian Stortz and Peter Minary

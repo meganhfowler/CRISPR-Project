@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 import models
+import transformations
 import torch
 from torch.utils.data import TensorDataset
 from sklearn.metrics import mean_squared_error
@@ -14,7 +15,7 @@ else:
 device = torch.device(dev)
 
 # Load data set
-df_train = pd.read_pickle("data/df_train.pkl")
+df_train = pd.read_csv("data/df_train.csv")
 df_train_X = df_train.drop(columns = ["cleavage_freq"])
 df_train_y = df_train["cleavage_freq"]
 
@@ -29,10 +30,10 @@ class Preprocessing:
         for i in stacked:
             temp.append(i)
         return torch.from_numpy(np.array(temp).astype(np.float32))
-
-Preprocessing.fold_seq(df_train_X)
-X = Preprocessing.tensorfy(df_train_X["stacked"])
+params = ["grna_target_sequence", "target_sequence"]
+X = transformations.Preprocessing.preprocess(df_train_X, params)
 y = torch.Tensor(np.array(df_train_y).reshape(df_train_y.shape[0], 1).astype(np.float32))
+print(y.shape)
 train_ds = TensorDataset(X, y)
 
 # Train

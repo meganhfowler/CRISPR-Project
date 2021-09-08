@@ -22,6 +22,7 @@ class LinearRegressor:
             for xb,yb in self.train_dl:
                 # Generate predictions
                 pred = self.model(xb)
+                # print(pred)
                 loss = self.loss_fn(pred, yb)
                 # Perform gradient descent
                 loss.backward()

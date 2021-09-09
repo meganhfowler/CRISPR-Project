@@ -8,6 +8,7 @@ import torch.nn as nn
 import torch.utils.data as Data
 from torch.autograd import Variable
 
+import functools
 
 class Preprocessing:
     def drop_na(df, params):
@@ -53,20 +54,23 @@ class Preprocessing:
         ]
         return np.array(encoding)
 
-    def encode(df):
-        df["grna_target_sequence"] = [
-                Preprocessing.encode_seq(seq)
-                for seq in df["grna_target_sequence"]
-        ]
-        df["target_sequence"] = [
-                Preprocessing.encode_seq(seq)
-                for seq in df["target_sequence"]
+    def encode_col(df, col):
+        df[col] = [
+            Preprocessing.encode_seq(seq)
+            for seq in df[col]
         ]
         return df
 
+
+    def encode(df):
+        for col in df.select_dtypes(exclude = ["number"]).columns:
+            Preprocessing.encode_col(df, col)
+        return df
+
     def fold(df):
-        df["stacked"] = df["grna_target_sequence"].apply(lambda x: x.tolist()) + df["target_sequence"].apply(lambda x: x.tolist())
-        df["stacked"] = df["stacked"].apply(lambda x: np.array(x))
+        # df["stacked"] = df["grna_target_sequence"].apply(lambda x: x.tolist()) + df["target_sequence"].apply(lambda x: x.tolist())
+        # df["stacked"] = df["stacked"].apply(lambda x: np.array(x))
+        df["stacked"] = functools.reduce(lambda x, y: df[x].apply(lambda x: x.tolist()) + df[y].apply(lambda x: x.tolist()),  df.columns)
         return df
 
     def tensorfy(df):

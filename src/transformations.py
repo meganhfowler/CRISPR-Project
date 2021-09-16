@@ -68,8 +68,6 @@ class Preprocessing:
         return df
 
     def fold(df):
-        # df["stacked"] = df["grna_target_sequence"].apply(lambda x: x.tolist()) + df["target_sequence"].apply(lambda x: x.tolist())
-        # df["stacked"] = df["stacked"].apply(lambda x: np.array(x))
         df["stacked"] = functools.reduce(lambda x, y: df[x].apply(lambda x: x.tolist()) + df[y].apply(lambda x: x.tolist()),  df.columns)
         return df
 

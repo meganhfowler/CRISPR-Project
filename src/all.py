@@ -19,6 +19,7 @@ device = torch.device(dev)
 
 df = pd.read_csv("./data/train.csv")
 df_train, df_validate = train_test_split(df, test_size = 0.2)
+df_test = pd.read_csv("./data/test.csv")
 
 # Train
 def train():
@@ -45,6 +46,18 @@ def benchmark(predictions, actuals):
                 'pvalue': pvalue,
                 }
             }
+
+# Test
+def test():
+    y_predictions, y_actuals = models.LinearRegressor(model_file_path = "./src/model.pkl").predict(df_test)
+    y_predictions = y_predictions.detach().numpy()
+    df_predictions = pd.DataFrame(y_predictions)
+    df_predictions.columns = ['prediction']
+    y_actuals = y_actuals.detach().numpy()
+    return y_predictions, y_actuals
+
+
+
 
 # Hyperparameters
 def benchmark_hyperparams(predictions, actuals):
@@ -90,6 +103,5 @@ def tune_hyperparams(df_train):
     df_hyper.to_csv("./results/hyperparameters.csv")
 
 
-train()
-preds, actuals = validate()
+preds, actuals = test()
 print(benchmark(preds, actuals))

@@ -52,11 +52,11 @@ class LinearRegressor:
         with open(self.model_file_path, 'rb') as model_file:
             model: model = pickle.load(model_file)
 
-        df_test = Preprocessing.drop_na(df_predict, self.params)
+        df_predict = Preprocessing.drop_na(df_predict, self.params)
         X = Preprocessing.get_X(df_predict, self.params)
         y_predictions = model(X)
         y_actuals = Preprocessing.get_y(df_predict)
-        return y_predictions, y_actuals
+        return y_predictions, y_actuals, df_predict
 
     def train_hyperparams(self, df_train, batch, epoch, learning_rate):
         df_train = Preprocessing.drop_na(df_train, self.params)
@@ -142,15 +142,15 @@ class LinearRegressor2:
         with open(self.model_file_path, 'wb') as model_file:
             pickle.dump(model, model_file)
 
-    def predict(self, df_test):
+    def predict(self, df_predict):
         with open(self.model_file_path, 'rb') as model_file:
             model: model = pickle.load(model_file)
 
-        df_test = Preprocessing.drop_na(df_test, self.params)
-        X = Preprocessing.get_X_2(df_test, self.params)
+        df_predict = Preprocessing.drop_na(df_predict, self.params)
+        X = Preprocessing.get_X_2(df_predict, self.params)
         y_predictions = model(X)
-        y_actuals = Preprocessing.get_y(df_test)
-        return y_predictions, y_actuals
+        y_actuals = Preprocessing.get_y(df_predict)
+        return y_predictions, y_actuals, df_predict
 
     def train_hyperparams(self, df_train, batch, epoch, learning_rate):
         df_train = Preprocessing.drop_na(df_train, self.params)

@@ -22,16 +22,20 @@ device = torch.device(dev)
 # Get Model, File Path, DataFrames from config
 MODEL = config.MODEL
 MODEL_FILE_PATH = config.MODEL_FILE_PATH
+PREDICTIONS_FILE_PATH = config.PREDICTIONS_FILE_PATH
+
 df_predict = config.df_predict
 
 
 # Predict
-def predict(df):
-    y_predictions, y_actuals = MODEL(model_file_path = MODEL_FILE_PATH).predict(df_predict)
+def predict(df_predict):
+    y_predictions, y_actuals, df_predict = MODEL(model_file_path = MODEL_FILE_PATH).predict(df_predict)
     y_predictions = y_predictions.detach().numpy()
     df_predictions = pd.DataFrame(y_predictions)
-    df_predictions.columns = ['prediction']
+    df_predictions.columns = ["predictions"]
     y_actuals = y_actuals.detach().numpy()
+    df_predict["predictions"] = y_predictions
+    df_predict.to_csv(PREDICTIONS_FILE_PATH)
     return y_predictions, y_actuals
 
 # Benchmark

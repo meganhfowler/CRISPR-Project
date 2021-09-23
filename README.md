@@ -175,23 +175,23 @@ Input: Predictions, Actual cleavage rates
 Output: Display on screen
 Description: Prints mean squared error, Spearman correlation, and Spearman pvalue to screen
 
-### Models.py
+### models.py
 #### train
 Input: Training dataframe
 Output: None
 Description: Trains a model using manually entered hyperparameters and saves it as a pickle file
 
-#### predict:
+#### predict
 Input: Dataset to be predicted
 Output: Predictions, Actual cleavage rates, Dataset used for prediciton
 Description: Uses a pretrained model saved at a predetermined file path to make cleavage rate predictions on a give dataset
 
-#### train_hyperparams:
+#### train_hyperparams
 Input: Training dataset, batch, epoch, learning rate)
 Output: None
 Description: Creates a pickled model using the input hyperparameters
 
-#### tune_hyperparameters:
+#### tune_hyperparameters
 Input: Training dataset, learning rate
 Output: png file with loss over each epoch
 Description: Loss plots files are stored in /results/tuning. 

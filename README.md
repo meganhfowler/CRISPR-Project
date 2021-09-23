@@ -1,17 +1,18 @@
 # CRISPR-Project
 Course project for directed research course
 
-Data:
-Taken from crisprSQL
+## Data Source
+Störtz, F. and Minary, P. (2021).  crisprsql: a novel database platform for crispr/casoff-target cleavage assays._Nucleic Acids Research_,**49**(D1), D855–D861
 
-Reference: crisprSQL: a novel database platform for CRISPR/Cas off-target cleavage assays by Florian Stortz and Peter Minary
+##Dependencies
+* Pandas
+* Numpy
+* Pytorch
+* sklearn
+* scipy
+* itertools
+* pickle
+* functools
 
-Dependencies:
-- Pandas
-- Numpy
-- Pytorch
-- sklearn
-- scipy
-- itertools
-- pickle
-- functools
+## Sample Session
+Go to 'src/config.py'

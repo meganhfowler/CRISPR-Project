@@ -40,3 +40,23 @@ df_test = pd.read_csv("./data/test.csv")
 # Predict validation or test set?
 df_predict = df_validate
 ```
+
+### Tune Hyperparameters
+Go ro `run.sh` and comment out the rest of the code:
+```
+echo Tuning Hyperparameters...
+./src/tune_hyperparameters.py
+echo Done.
+echo
+echo
+#echo Training...
+#./src/train.py
+#echo Done.
+#echo
+#echo
+#echo Predicting...
+#./src/predict.py
+#echo
+#echo
+echo Have a nice day
+```

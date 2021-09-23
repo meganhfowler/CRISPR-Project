@@ -60,3 +60,82 @@ echo
 #echo
 echo Have a nice day
 ```
+To test different epochs, batch sizes, and learning rates, go to `src/tune_hyperparameters.py`.
+To get a csv output, use the `tune_hyperparameters` function. To plot the loss over each epoch, use the `plot_loss` function. 
+The csv file will be output to whatever was set as the `HYPERPARAMS_FILE_PATH` in `src/config.py`. The loss plots will be in `results/tuning`.
+
+### Training the Model
+Similarly to tuning the hyperparameters, go to `run.sh` and comment out all code except `./src/train.py`. 
+
+### Making Predictions
+Similarly to tuning the hyperparameters, go to `run.sh` and comment out all code except `./src/predict.py`. Ensure you have set the correct dataset in `src/config.py` for validating or testing. 
+
+### The Models
+The parameters to be used from the data set are defined as class variables. 
+```
+class LinearRegressor:
+    def __init__(self, model_file_path):
+        self.model_file_path = model_file_path
+        self.params = ["grna_target_sequence", "target_sequence"]
+```
+The train function drops any rows in th dataset that contain a value of NaN in either of the sequence columns or the cleavage frequency column. It then gets tensors `X` and `y` from the `Preprocessing.get_X` and `Preprocssing.get_y` functions.
+```
+def train(self, df_train):
+        df_train = Preprocessing.drop_na(df_train, self.params)
+        X = Preprocessing.get_X(df_train, self.params)
+        y = Preprocessing.get_y(df_train)
+```
+The model type, loss function, optimization function, and hyperparameters are set manually, based on the outcome of hyperparameter tuning:
+```
+        model = nn.Linear(input_dim, 1)
+        loss_func = nn.MSELoss()
+        optimizer = torch.optim.SGD(model.parameters(), lr = 0.0001)
+        BATCH_SIZE = 1
+        EPOCH = 25
+```
+The model is then trained by the following piece of code:
+```
+ for epoch in range(EPOCH):
+            epoch_loss = []
+            for step, (batch_x, batch_y) in enumerate(loader):
+                prediction = model(batch_x)
+                loss = loss_func(prediction, batch_y)
+                loss.backward()
+                optimizer.step()
+                optimizer.zero_grad()
+```
+and saved to as a pickle file
+```
+with open(self.model_file_path, 'wb') as model_file:
+            pickle.dump(model, model_file)
+```
+The train function also produces a loss curve saved in results. 
+
+### Preprocessing Data
+The `src/transformations.py` file contains all the preprocessing done to the data. Of note, the `LinearRegressor` model's sequences are encoded using sequential encoding:
+```
+    def encode_nt(nt:str) -> int:
+        assert len(nt) == 1
+        encoding_dict = {
+                'X': 0,
+                'A': 0.25,
+                'T': 0.5,
+                'G': 0.75,
+                'C': 1
+        }
+        return encoding_dict.get(nt.upper())
+```
+
+and the `LinearRegressor2` model has it's sequences encoded by the one-hot encoding function:
+```  
+    def encode_nt_onehot(nt:str) -> int:
+        assert len(nt) == 1
+        encoding_dict = {
+            'X': [0, 0, 0, 0],
+            'A': [1, 0, 0, 0],
+            'T': [0, 1, 0, 0],
+            'G': [0, 0, 1, 0],
+            'C': [0, 0, 0, 1]
+        }
+        return encoding_dict.get(nt.upper())
+```

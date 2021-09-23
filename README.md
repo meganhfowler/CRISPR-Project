@@ -7,23 +7,23 @@ Störtz, F. and Minary, P. (2021).  crisprSQL: a novel database platform for cri
 ## Dependencies
 
 * Pandas: 
-    pandas development team, T. (2020). pandas-dev/pandas: Pandas.
-    Wes McKinney (2010). Data Structures for Statistical Computing in Python. In Stéfan van der Walt and Jarrod Millman, editors, Proceedings of the 9th Python in Science Conference, pages 56 – 61.
+    * pandas development team, T. (2020). pandas-dev/pandas: Pandas.
+    * Wes McKinney (2010). Data Structures for Statistical Computing in Python. In Stéfan van der Walt and Jarrod Millman, editors, Proceedings of the 9th Python in Science Conference, pages 56 – 61.
 * Numpy: 
-    Harris, C. R. et al. (2020). Array programming with NumPy. Nature, 585(7825), 357–362.
+   *  Harris, C. R. et al. (2020). Array programming with NumPy. Nature, 585(7825), 357–362.
     
 * Pytorch:
-    Paszke, A. et al. (2019). Pytorch: An imperative style, high-performance deep learning library. In H. Wallach, H. Larochelle, A. Beygelzimer, F. d'Alché-Buc, E. Fox, and R. Garnett, editors, Advances in Neural Information Processing Systems 32 , pages 8024–8035. Curran Associates, Inc.
+    * Paszke, A. et al. (2019). Pytorch: An imperative style, high-performance deep learning library. In H. Wallach, H. Larochelle, A. Beygelzimer, F. d'Alché-Buc, E. Fox, and R. Garnett, editors, Advances in Neural Information Processing Systems 32 , pages 8024–8035. Curran Associates, Inc.
 * sklearn:
-    Pedregosa, F. et al. (2011). Scikit-learn: Machine learning in Python. Journal of Machine Learning Research, 12, 2825–2830.
+    * Pedregosa, F. et al. (2011). Scikit-learn: Machine learning in Python. Journal of Machine Learning Research, 12, 2825–2830.
 * scipy:
-    Virtanen, P. et al. (2020). SciPy 1.0: Fundamental Algorithms for Scientific Computing in Python. Nature Methods, 17, 261–272.
+    * Virtanen, P. et al. (2020). SciPy 1.0: Fundamental Algorithms for Scientific Computing in Python. Nature Methods, 17, 261–272.
 * itertools:
-    Van Rossum, G. (2020). The Python Library Reference, release 3.8.2 . Python Software Foundation.
+    * Van Rossum, G. (2020). The Python Library Reference, release 3.8.2 . Python Software Foundation.
 * pickle:
-    Van Rossum, G. (2020). The Python Library Reference, release 3.8.2 . Python Software Foundation.
+    * Van Rossum, G. (2020). The Python Library Reference, release 3.8.2 . Python Software Foundation.
 * functools:
-    Van Rossum, G. (2020). The Python Library Reference, release 3.8.2 . Python Software Foundation.
+    * Van Rossum, G. (2020). The Python Library Reference, release 3.8.2 . Python Software Foundation.
 
 ## Sample Session
 

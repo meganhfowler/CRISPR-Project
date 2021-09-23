@@ -1,4 +1,4 @@
-# CRISPR-Project
+# Navitas
 Course project for directed research course
 
 ## Data Source
@@ -139,3 +139,61 @@ and the `LinearRegressor2` model has it's sequences encoded by the one-hot encod
         }
         return encoding_dict.get(nt.upper())
 ```
+
+## Listing
+
+### tune_hyperparameters.py
+##### benchmark_hyperparams
+Input: Cleavage rate predictions as a Numpy array, True cleavage rates as a numpy array
+Output: mean squared error, Spearman correlation, Spearman pvalue  
+Description: Calculates some benchmark statistics on cleavage rate predictions
+
+##### tune_hyperparams
+Input: Training dataset
+Output: csv file containing mean squared error and Spearman correlation for each set of hyperparameters tested. 
+Description: Generates a csv file containing benchmark statistics for the hyperparameters epoch, batch, and learning rate as described in the function
+
+#### plot_loss
+Input: Training dataset
+Output: png files showing the loss over each epoch
+Description: Loss plots files are stored in /results/tuning. 
+
+### train.py
+#### train
+Input: None
+Output: None
+Description: Creates a pickled version of the model at a predetermined file path
+
+### predict.py
+#### predict
+Input: Dataset to be predicted
+Output: Predictions, Actual cleavage rates
+Description: Uses a pretrained model saved at a predetermined file path to make cleavage rate predictions on a give dataset
+
+#### benchmark
+Input: Predictions, Actual cleavage rates
+Output: Display on screen
+Description: Prints mean squared error, Spearman correlation, and Spearman pvalue to screen
+
+### Models.py
+#### train
+Input: Training dataframe
+Output: None
+Description: Trains a model using manually entered hyperparameters and saves it as a pickle file
+
+#### predict:
+Input: Dataset to be predicted
+Output: Predictions, Actual cleavage rates, Dataset used for prediciton
+Description: Uses a pretrained model saved at a predetermined file path to make cleavage rate predictions on a give dataset
+
+#### train_hyperparams:
+Input: Training dataset, batch, epoch, learning rate)
+Output: None
+Description: Creates a pickled model using the input hyperparameters
+
+#### tune_hyperparameters:
+Input: Training dataset, learning rate
+Output: png file with loss over each epoch
+Description: Loss plots files are stored in /results/tuning. 
+
+### transformations.py

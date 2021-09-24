@@ -8,7 +8,7 @@ from torch.autograd import Variable
 import torch.nn as nn
 import torch.utils.data as Data
 import pickle
-
+import matplotlib.pyplot as plt
 from transformations import Preprocessing
 
 class LinearRegressor:
@@ -27,9 +27,9 @@ class LinearRegressor:
         y = Variable(y)
         model = nn.Linear(input_dim, 1)
         loss_func = nn.MSELoss()
-        optimizer = torch.optim.SGD(model.parameters(), lr = 0.01)
+        optimizer = torch.optim.SGD(model.parameters(), lr = 0.0001)
         BATCH_SIZE = 1
-        EPOCH = 1
+        EPOCH = 25
         torch_dataset = Data.TensorDataset(X, y)
         loader = Data.DataLoader(
             dataset = torch_dataset,
@@ -37,13 +37,25 @@ class LinearRegressor:
             shuffle = True,
             num_workers = 2
         )
+        losses = []
         for epoch in range(EPOCH):
+            epoch_loss = []
             for step, (batch_x, batch_y) in enumerate(loader):
                 prediction = model(batch_x)
                 loss = loss_func(prediction, batch_y)
                 loss.backward()
                 optimizer.step()
                 optimizer.zero_grad()
+                epoch_loss.append(loss.item())
+            losses.append(sum(epoch_loss)/len(epoch_loss))
+
+        epochs = np.arange(EPOCH)
+        fig = plt.figure()
+        plt.plot(epochs, losses)
+        fig.suptitle('Loss over epochs')
+        plt.xlabel('epoch')
+        plt.ylabel('loss')
+        fig.savefig('./results/loss_plot.jpg')
 
         with open(self.model_file_path, 'wb') as model_file:
             pickle.dump(model, model_file)
@@ -90,6 +102,54 @@ class LinearRegressor:
             pickle.dump(model, model_file)
 
 
+    def tune_hyperparams(self, df_train, learning_rate):
+        df_train = Preprocessing.drop_na(df_train, self.params)
+        X = Preprocessing.get_X(df_train, self.params)
+        y = Preprocessing.get_y(df_train)
+
+        input_dim = X.shape[1]
+        X = Variable(X)
+        y = Variable(y)
+        model = nn.Linear(input_dim, 1)
+        loss_func = nn.MSELoss()
+        optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate)
+        BATCH_SIZE = 1
+        EPOCH = 25
+        torch_dataset = Data.TensorDataset(X, y)
+        loader = Data.DataLoader(
+            dataset = torch_dataset,
+            batch_size = BATCH_SIZE,
+            shuffle = True,
+            num_workers = 2
+        )
+        losses = []
+        for epoch in range(EPOCH):
+            epoch_loss = []
+            for step, (batch_x, batch_y) in enumerate(loader):
+                prediction = model(batch_x)
+                loss = loss_func(prediction, batch_y)
+                loss.backward()
+                optimizer.step()
+                optimizer.zero_grad()
+                epoch_loss.append(loss.item())
+            losses.append(sum(epoch_loss)/len(epoch_loss))
+
+        epochs = np.arange(EPOCH)
+        fig = plt.figure()
+        plt.plot(epochs, losses)
+        fig.suptitle('Loss over epochs')
+        plt.xlabel('epoch')
+        plt.ylabel('loss')
+        file_path = "./results/tuning/lr=" + str(learning_rate) + "_lossplot.jpg"
+        fig.savefig(file_path)
+
+
+
+        with open(self.model_file_path, 'wb') as model_file:
+            pickle.dump(model, model_file)
+
+
+
 
 class LinearRegressor2:
 
@@ -120,7 +180,7 @@ class LinearRegressor2:
 
         model = nn.Linear(input_dim, 1)
         loss_func = nn.MSELoss()
-        optimizer = torch.optim.SGD(model.parameters(), lr = 0.0001)
+        optimizer = torch.optim.SGD(model.parameters(), lr = 1e-05)
         BATCH_SIZE = 1
         EPOCH = 9
 
@@ -179,6 +239,53 @@ class LinearRegressor2:
                 loss.backward()
                 optimizer.step()
                 optimizer.zero_grad()
+
+        with open(self.model_file_path, 'wb') as model_file:
+            pickle.dump(model, model_file)
+
+
+    def tune_hyperparams(self, df_train, learning_rate):
+        df_train = Preprocessing.drop_na(df_train, self.params)
+        X = Preprocessing.get_X_2(df_train, self.params)
+        y = Preprocessing.get_y(df_train)
+
+        input_dim = X.shape[1]
+        X = Variable(X)
+        y = Variable(y)
+        model = nn.Linear(input_dim, 1)
+        loss_func = nn.MSELoss()
+        optimizer = torch.optim.SGD(model.parameters(), lr = learning_rate)
+        BATCH_SIZE = 1
+        EPOCH = 25
+        torch_dataset = Data.TensorDataset(X, y)
+        loader = Data.DataLoader(
+            dataset = torch_dataset,
+            batch_size = BATCH_SIZE,
+            shuffle = True,
+            num_workers = 2
+        )
+        losses = []
+        for epoch in range(EPOCH):
+            epoch_loss = []
+            for step, (batch_x, batch_y) in enumerate(loader):
+                prediction = model(batch_x)
+                loss = loss_func(prediction, batch_y)
+                loss.backward()
+                optimizer.step()
+                optimizer.zero_grad()
+                epoch_loss.append(loss.item())
+            losses.append(sum(epoch_loss)/len(epoch_loss))
+
+        epochs = np.arange(EPOCH)
+        fig = plt.figure()
+        plt.plot(epochs, losses)
+        fig.suptitle('Loss over epochs')
+        plt.xlabel('epoch')
+        plt.ylabel('loss')
+        file_path = "./results/tuning/lr=" + str(learning_rate) + "_lossplot.jpg"
+        fig.savefig(file_path)
+
+
 
         with open(self.model_file_path, 'wb') as model_file:
             pickle.dump(model, model_file)

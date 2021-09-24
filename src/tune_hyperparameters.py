@@ -66,4 +66,11 @@ def tune_hyperparams(df_train):
 
     df_hyper.to_csv(HYPERPARAMS_FILE_PATH)
 
-tune_hyperparams(df_train)
+
+def plot_loss(df_train):
+    learning_rates = [0.01, 0.001, 0.0001, 0.00001, 0.000001]
+    for lr in learning_rates:
+        MODEL(model_file_path = MODEL_FILE_PATH).tune_hyperparams(df_train, lr)
+
+
+plot_loss(df_train)

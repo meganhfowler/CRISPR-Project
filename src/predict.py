@@ -23,7 +23,6 @@ device = torch.device(dev)
 MODEL = config.MODEL
 MODEL_FILE_PATH = config.MODEL_FILE_PATH
 PREDICTIONS_FILE_PATH = config.PREDICTIONS_FILE_PATH
-
 df_predict = config.df_predict
 
 

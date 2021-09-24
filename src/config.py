@@ -18,6 +18,6 @@ df_train, df_validate = train_test_split(df, test_size = 0.2)
 df_test = pd.read_csv("./data/test.csv")
 
 # Predict validation or test set?
-df_predict = df_validate
+df_predict = df_test
 
 
